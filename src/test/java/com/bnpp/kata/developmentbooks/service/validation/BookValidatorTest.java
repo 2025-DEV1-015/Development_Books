@@ -21,23 +21,23 @@ class BookValidatorTest {
 
     @Test
     @DisplayName("BookValidator should return true when book title is empty")
-    void validateSingleBookWithEmptyData(){
+    void validateSingleBookWithEmptyData() {
 
-        List<BookItems> bookItemsList = Collections.singletonList(new BookItems("",1));
+        List<BookItems> bookItemsList = Collections.singletonList(new BookItems("", 1));
         boolean hasInvalidData = bookValidator.validate(bookItemsList);
 
-        assertEquals(true,hasInvalidData);
+        assertEquals(true, hasInvalidData);
 
     }
 
     @Test
     @DisplayName("BookValidator should return true when book quantity is ZERO")
-    void validateSingleBookWithZeroQuantity(){
+    void validateSingleBookWithZeroQuantity() {
 
-        List<BookItems> bookItemsList = Collections.singletonList(new BookItems("Clean Code",0));
+        List<BookItems> bookItemsList = Collections.singletonList(new BookItems("Clean Code", 0));
         boolean hasInvalidData = bookValidator.validate(bookItemsList);
 
-        assertEquals(true,hasInvalidData);
+        assertEquals(true, hasInvalidData);
 
     }
 }

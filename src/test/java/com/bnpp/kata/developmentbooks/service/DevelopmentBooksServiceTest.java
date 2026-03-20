@@ -1,6 +1,8 @@
 package com.bnpp.kata.developmentbooks.service;
 
 import com.bnpp.kata.developmentbooks.model.BookItems;
+import com.bnpp.kata.developmentbooks.service.pricing.PricingEngine;
+import com.bnpp.kata.developmentbooks.service.validation.BookValidator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -20,7 +22,11 @@ class DevelopmentBooksServiceTest {
 
     @BeforeEach
     void setup() {
-        developmentBooksService = new DevelopmentBooksService();
+        PricingEngine pricingEngine = new PricingEngine();
+        BookValidator bookValidator = new BookValidator();
+
+        developmentBooksService =
+                new DevelopmentBooksService(pricingEngine, bookValidator);
     }
 
     @Test
@@ -42,44 +48,44 @@ class DevelopmentBooksServiceTest {
 
     @Test
     @DisplayName("should return base price for a single book without discount")
-    void calculateSingleBookPrice(){
+    void calculateSingleBookPrice() {
 
-        List<BookItems> bookItemsList = Collections.singletonList(new BookItems("Clean Code",1));
+        List<BookItems> bookItemsList = Collections.singletonList(new BookItems("Clean Code", 1));
 
         double price = developmentBooksService.calculateBookPrice(bookItemsList);
 
-        assertEquals(50.0,price);
+        assertEquals(50.0, price);
     }
 
     @Test
     @DisplayName("should return zero when book title is empty")
-    void calculateSingleBookWithEmptyData(){
+    void calculateSingleBookWithEmptyData() {
 
-        List<BookItems> bookItemsList = Collections.singletonList(new BookItems("",1));
+        List<BookItems> bookItemsList = Collections.singletonList(new BookItems("", 1));
         double price = developmentBooksService.calculateBookPrice(bookItemsList);
 
-        assertEquals(ZERO_DOUBLE,price);
+        assertEquals(ZERO_DOUBLE, price);
     }
 
     @Test
     @DisplayName("should return zero when book quantity is invalid")
-    void calculateSingleBookWithZeroQuantity(){
+    void calculateSingleBookWithZeroQuantity() {
 
-        List<BookItems> bookItemsList = Collections.singletonList(new BookItems("Clean Code",0));
+        List<BookItems> bookItemsList = Collections.singletonList(new BookItems("Clean Code", 0));
         double price = developmentBooksService.calculateBookPrice(bookItemsList);
 
-        assertEquals(ZERO_DOUBLE,price);
+        assertEquals(ZERO_DOUBLE, price);
     }
 
     @Test
     @DisplayName("should return total price for two different books without discount")
-    void calculateTwoDifferentBooksPrice(){
+    void calculateTwoDifferentBooksPrice() {
 
-        List<BookItems> bookItemsList = List.of(new BookItems("Clean Code",1),
-                new BookItems("The Clean Coder",1));
+        List<BookItems> bookItemsList = List.of(new BookItems("Clean Code", 1),
+                new BookItems("The Clean Coder", 1));
         double price = developmentBooksService.calculateBookPrice(bookItemsList);
 
-        assertEquals(95.0,price);
+        assertEquals(95.0, price);
     }
 
     @Test
