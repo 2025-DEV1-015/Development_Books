@@ -13,7 +13,8 @@ public class BookValidator {
                 .anyMatch(item ->
                         Objects.isNull(bookItemsList) ||
                                 Objects.isNull(item.getTitle()) ||
-                                item.getTitle().isBlank());
+                                item.getTitle().isBlank() ||
+                                item.getQuantity()<=0);
 
     }
 }

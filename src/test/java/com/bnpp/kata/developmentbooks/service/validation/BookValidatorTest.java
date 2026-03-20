@@ -29,4 +29,15 @@ class BookValidatorTest {
         assertEquals(true,hasInvalidData);
 
     }
+
+    @Test
+    @DisplayName("BookValidator should return true when book quantity is ZERO")
+    void validateSingleBookWithZeroQuantity(){
+
+        List<BookItems> bookItemsList = Collections.singletonList(new BookItems("Clean Code",0));
+        boolean hasInvalidData = bookValidator.validate(bookItemsList);
+
+        assertEquals(true,hasInvalidData);
+
+    }
 }
