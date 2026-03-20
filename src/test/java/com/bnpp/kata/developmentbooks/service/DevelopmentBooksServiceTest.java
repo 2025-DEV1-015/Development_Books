@@ -4,9 +4,13 @@ import com.bnpp.kata.developmentbooks.model.BookItems;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Stream;
 
 import static com.bnpp.kata.developmentbooks.constants.Constants.ZERO_DOUBLE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -76,5 +80,47 @@ class DevelopmentBooksServiceTest {
         double price = developmentBooksService.calculateBookPrice(bookItemsList);
 
         assertEquals(100.0,price);
+    }
+
+    @ParameterizedTest
+    @DisplayName("should return total price for three,four & five different books without discount")
+    @MethodSource("bookDataProvider")
+    void calculateMultipleBooksPriceWithoutDiscount(List<BookItems> bookItemsList, double expectedPrice) {
+
+        double price = developmentBooksService.calculateBookPrice(bookItemsList);
+
+        assertEquals(expectedPrice, price);
+    }
+
+    static Stream<Arguments> bookDataProvider() {
+        return Stream.of(
+                Arguments.of(
+                        List.of(
+                                new BookItems("Clean Code", 1),
+                                new BookItems("The Clean Coder", 1),
+                                new BookItems("Clean Architecture", 1)
+                        ),
+                        150.0
+                ),
+                Arguments.of(
+                        List.of(
+                                new BookItems("Clean Code", 1),
+                                new BookItems("The Clean Coder", 1),
+                                new BookItems("Clean Architecture", 1),
+                                new BookItems("Test Driven Development by Example", 1)
+                        ),
+                        200.0
+                ),
+                Arguments.of(
+                        List.of(
+                                new BookItems("Clean Code", 1),
+                                new BookItems("The Clean Coder", 1),
+                                new BookItems("Clean Architecture", 1),
+                                new BookItems("Test Driven Development by Example", 1),
+                                new BookItems("Working Effectively With Legacy Code", 1)
+                        ),
+                        250.0
+                )
+        );
     }
 }
