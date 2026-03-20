@@ -82,6 +82,16 @@ class DevelopmentBooksServiceTest {
         assertEquals(95.0,price);
     }
 
+    @Test
+    @DisplayName("Should return total price for multiple quantity of different books with discount")
+    void calculateMultipleQuantityOfDifferentBookPrice() {
+        List<BookItems> bookItemsList = List.of(new BookItems("Clean Code", 2),
+                new BookItems("The Clean Coder", 3));
+        double price = developmentBooksService.calculateBookPrice(bookItemsList);
+
+        assertEquals(245.0, price);
+    }
+
     @ParameterizedTest
     @DisplayName("should return total price for three,four & five different books without discount")
     @MethodSource("bookDataProvider")
