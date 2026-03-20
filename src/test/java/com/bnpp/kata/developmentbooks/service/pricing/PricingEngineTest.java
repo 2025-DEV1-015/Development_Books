@@ -29,4 +29,14 @@ class PricingEngineTest {
 
         assertEquals(50.0,price);
     }
+
+    @Test
+    @DisplayName("PricingEngine should return price based on discount logic")
+    void calculateMultipleQuantityOfDifferentBookPrice() {
+        List<BookItems> bookItemsList = List.of(new BookItems("Clean Code", 1),
+                new BookItems("The Clean Coder", 1));
+        double price = pricingEngine.calculatePrice(bookItemsList);
+
+        assertEquals(95.0, price);
+    }
 }

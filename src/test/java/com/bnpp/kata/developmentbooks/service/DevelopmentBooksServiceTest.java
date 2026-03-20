@@ -79,7 +79,7 @@ class DevelopmentBooksServiceTest {
                 new BookItems("The Clean Coder",1));
         double price = developmentBooksService.calculateBookPrice(bookItemsList);
 
-        assertEquals(100.0,price);
+        assertEquals(95.0,price);
     }
 
     @ParameterizedTest
@@ -100,7 +100,7 @@ class DevelopmentBooksServiceTest {
                                 new BookItems("The Clean Coder", 1),
                                 new BookItems("Clean Architecture", 1)
                         ),
-                        150.0
+                        135.0
                 ),
                 Arguments.of(
                         List.of(
@@ -109,7 +109,7 @@ class DevelopmentBooksServiceTest {
                                 new BookItems("Clean Architecture", 1),
                                 new BookItems("Test Driven Development by Example", 1)
                         ),
-                        200.0
+                        160.0
                 ),
                 Arguments.of(
                         List.of(
@@ -119,7 +119,7 @@ class DevelopmentBooksServiceTest {
                                 new BookItems("Test Driven Development by Example", 1),
                                 new BookItems("Working Effectively With Legacy Code", 1)
                         ),
-                        250.0
+                        187.5
                 )
         );
     }
