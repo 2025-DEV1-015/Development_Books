@@ -65,6 +65,16 @@ class DevelopmentBooksServiceTest {
         double price = developmentBooksService.calculateBookPrice(bookItemsList);
 
         assertEquals(ZERO_DOUBLE,price);
+    }
 
+    @Test
+    @DisplayName("should return total price for two different books without discount")
+    void calculateTwoDifferentBooksPrice(){
+
+        List<BookItems> bookItemsList = List.of(new BookItems("Clean Code",1),
+                new BookItems("The Clean Coder",1));
+        double price = developmentBooksService.calculateBookPrice(bookItemsList);
+
+        assertEquals(100.0,price);
     }
 }
