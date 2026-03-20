@@ -56,4 +56,15 @@ class DevelopmentBooksServiceTest {
 
         assertEquals(ZERO_DOUBLE,price);
     }
+
+    @Test
+    @DisplayName("should return zero when book quantity is invalid")
+    void calculateSingleBookWithZeroQuantity(){
+
+        List<BookItems> bookItemsList = Collections.singletonList(new BookItems("Clean Code",0));
+        double price = developmentBooksService.calculateBookPrice(bookItemsList);
+
+        assertEquals(ZERO_DOUBLE,price);
+
+    }
 }
