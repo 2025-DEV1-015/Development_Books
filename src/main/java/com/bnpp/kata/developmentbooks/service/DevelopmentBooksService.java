@@ -1,7 +1,6 @@
 package com.bnpp.kata.developmentbooks.service;
 
 import com.bnpp.kata.developmentbooks.constants.BookType;
-import com.bnpp.kata.developmentbooks.constants.Constants;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
