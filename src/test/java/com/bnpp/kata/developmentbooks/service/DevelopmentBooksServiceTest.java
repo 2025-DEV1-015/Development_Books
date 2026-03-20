@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import java.util.Collections;
 import java.util.List;
 
+import static com.bnpp.kata.developmentbooks.constants.Constants.ZERO_DOUBLE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class DevelopmentBooksServiceTest {
@@ -44,5 +45,15 @@ class DevelopmentBooksServiceTest {
         double price = developmentBooksService.calculateBookPrice(bookItemsList);
 
         assertEquals(50.0,price);
+    }
+
+    @Test
+    @DisplayName("should return zero when book title is empty")
+    void calculateSingleBookWithEmptyData(){
+
+        List<BookItems> bookItemsList = Collections.singletonList(new BookItems("",1));
+        double price = developmentBooksService.calculateBookPrice(bookItemsList);
+
+        assertEquals(ZERO_DOUBLE,price);
     }
 }
