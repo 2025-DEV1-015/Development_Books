@@ -1,6 +1,7 @@
 package com.bnpp.kata.developmentbooks.service.pricing;
 
 import com.bnpp.kata.developmentbooks.model.BookItems;
+import com.bnpp.kata.developmentbooks.model.PriceResult;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -21,13 +22,15 @@ class PricingEngineTest {
 
     @Test
     @DisplayName("PricingEngine should return base price for a single book")
-    void calculateSingleBookPrice(){
+    void calculateSingleBookPrice() {
 
-        List<BookItems> bookItemsList = Collections.singletonList(new BookItems("Clean Code",1));
+        List<BookItems> bookItemsList = Collections.singletonList(new BookItems("Clean Code", 1));
+        int[] quantities = bookItemsList.stream().mapToInt(BookItems::getQuantity).toArray();
+        String[] titles = bookItemsList.stream().map(BookItems::getTitle).toArray(String[]::new);
 
-        double price = pricingEngine.calculatePrice(bookItemsList);
+        PriceResult price = pricingEngine.calculatePrice(quantities, titles);
 
-        assertEquals(50.0,price);
+        assertEquals(50.0, price.getPrice());
     }
 
     @Test
@@ -35,8 +38,11 @@ class PricingEngineTest {
     void calculateMultipleQuantityOfDifferentBookPrice() {
         List<BookItems> bookItemsList = List.of(new BookItems("Clean Code", 1),
                 new BookItems("The Clean Coder", 1));
-        double price = pricingEngine.calculatePrice(bookItemsList);
+        int[] quantities = bookItemsList.stream().mapToInt(BookItems::getQuantity).toArray();
+        String[] titles = bookItemsList.stream().map(BookItems::getTitle).toArray(String[]::new);
 
-        assertEquals(95.0, price);
+        PriceResult price = pricingEngine.calculatePrice(quantities, titles);
+
+        assertEquals(95.0, price.getPrice());
     }
 }

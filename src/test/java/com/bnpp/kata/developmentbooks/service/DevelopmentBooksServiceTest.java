@@ -1,6 +1,9 @@
 package com.bnpp.kata.developmentbooks.service;
 
 import com.bnpp.kata.developmentbooks.model.BookItems;
+import com.bnpp.kata.developmentbooks.model.OrderResponse;
+import com.bnpp.kata.developmentbooks.service.extractor.BookQuantityExtractor;
+import com.bnpp.kata.developmentbooks.service.extractor.BookTitleExtractor;
 import com.bnpp.kata.developmentbooks.service.pricing.PricingEngine;
 import com.bnpp.kata.developmentbooks.service.validation.BookValidator;
 import org.junit.jupiter.api.BeforeEach;
@@ -24,9 +27,11 @@ class DevelopmentBooksServiceTest {
     void setup() {
         PricingEngine pricingEngine = new PricingEngine();
         BookValidator bookValidator = new BookValidator();
+        BookQuantityExtractor bookQuantityExtractor = new BookQuantityExtractor();
+        BookTitleExtractor bookTitleExtractor = new BookTitleExtractor();
 
         developmentBooksService =
-                new DevelopmentBooksService(pricingEngine, bookValidator);
+                new DevelopmentBooksService(pricingEngine, bookValidator, bookQuantityExtractor, bookTitleExtractor);
     }
 
     @Test
@@ -52,9 +57,9 @@ class DevelopmentBooksServiceTest {
 
         List<BookItems> bookItemsList = Collections.singletonList(new BookItems("Clean Code", 1));
 
-        double price = developmentBooksService.calculateBookPrice(bookItemsList);
+        OrderResponse response = developmentBooksService.calculateBookPrice(bookItemsList);
 
-        assertEquals(50.0, price);
+        assertEquals(50.0, response.getDiscountedPrice());
     }
 
     @Test
@@ -62,9 +67,9 @@ class DevelopmentBooksServiceTest {
     void calculateSingleBookWithEmptyData() {
 
         List<BookItems> bookItemsList = Collections.singletonList(new BookItems("", 1));
-        double price = developmentBooksService.calculateBookPrice(bookItemsList);
+        OrderResponse response = developmentBooksService.calculateBookPrice(bookItemsList);
 
-        assertEquals(ZERO_DOUBLE, price);
+        assertEquals(ZERO_DOUBLE, response.getDiscountedPrice());
     }
 
     @Test
@@ -72,9 +77,9 @@ class DevelopmentBooksServiceTest {
     void calculateSingleBookWithZeroQuantity() {
 
         List<BookItems> bookItemsList = Collections.singletonList(new BookItems("Clean Code", 0));
-        double price = developmentBooksService.calculateBookPrice(bookItemsList);
+        OrderResponse response = developmentBooksService.calculateBookPrice(bookItemsList);
 
-        assertEquals(ZERO_DOUBLE, price);
+        assertEquals(ZERO_DOUBLE, response.getDiscountedPrice());
     }
 
     @Test
@@ -83,9 +88,9 @@ class DevelopmentBooksServiceTest {
 
         List<BookItems> bookItemsList = List.of(new BookItems("Clean Code", 1),
                 new BookItems("The Clean Coder", 1));
-        double price = developmentBooksService.calculateBookPrice(bookItemsList);
+        OrderResponse response = developmentBooksService.calculateBookPrice(bookItemsList);
 
-        assertEquals(95.0, price);
+        assertEquals(95.0, response.getDiscountedPrice());
     }
 
     @Test
@@ -93,9 +98,22 @@ class DevelopmentBooksServiceTest {
     void calculateMultipleQuantityOfDifferentBookPrice() {
         List<BookItems> bookItemsList = List.of(new BookItems("Clean Code", 2),
                 new BookItems("The Clean Coder", 3));
-        double price = developmentBooksService.calculateBookPrice(bookItemsList);
+        OrderResponse response = developmentBooksService.calculateBookPrice(bookItemsList);
 
-        assertEquals(245.0, price);
+        assertEquals(240.0, response.getDiscountedPrice());
+    }
+
+    @Test
+    @DisplayName("Should return best discounted price for book combination")
+    void calculateBestDiscountPrice() {
+        List<BookItems> bookItemsList = List.of(new BookItems("Clean code", 2),
+                new BookItems("The Clean Coder", 2),
+                new BookItems("Clean Architecture", 2),
+                new BookItems("Test Driven Development by Example", 1),
+                new BookItems("Working Effectively With Legacy Code", 1));
+        OrderResponse response = developmentBooksService.calculateBookPrice(bookItemsList);
+
+        assertEquals(320.0, response.getDiscountedPrice());
     }
 
     @ParameterizedTest
@@ -103,9 +121,9 @@ class DevelopmentBooksServiceTest {
     @MethodSource("bookDataProvider")
     void calculateMultipleBooksPriceWithoutDiscount(List<BookItems> bookItemsList, double expectedPrice) {
 
-        double price = developmentBooksService.calculateBookPrice(bookItemsList);
+        OrderResponse response = developmentBooksService.calculateBookPrice(bookItemsList);
 
-        assertEquals(expectedPrice, price);
+        assertEquals(expectedPrice, response.getDiscountedPrice());
     }
 
     static Stream<Arguments> bookDataProvider() {
