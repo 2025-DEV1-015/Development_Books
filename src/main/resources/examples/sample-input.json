@@ -1,0 +1,24 @@
+{
+  "books": [
+    {
+      "title": "Clean Code",
+      "quantity": 2
+    },
+    {
+      "title": "The Clean Coder",
+      "quantity": 2
+    },
+    {
+      "title": "Clean Architecture",
+      "quantity": 2
+    },
+    {
+      "title": "Test Driven Development by Example",
+      "quantity": 1
+    },
+    {
+      "title": "Working Effectively With Legacy Code",
+      "quantity": 1
+    }
+  ]
+}

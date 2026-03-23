@@ -1,0 +1,28 @@
+{
+  "groups": [
+    {
+      "books": [
+        "Clean Code",
+        "The Clean Coder",
+        "Clean Architecture",
+        "Test Driven Development by Example"
+      ],
+      "groupSize": 4,
+      "discountPercentage": 20,
+      "afterdiscountPrice": 160
+    },
+    {
+      "books": [
+        "Clean Code",
+        "The Clean Coder",
+        "Clean Architecture",
+        "Working Effectively With Legacy Code"
+      ],
+      "groupSize": 4,
+      "discountPercentage": 20,
+      "afterdiscountPrice": 160
+    }
+  ],
+  "totalPrice": 400,
+  "discountedPrice": 320
+}
