@@ -1,6 +1,7 @@
 package com.bnpp.kata.developmentbooks.service.pricing;
 
 import com.bnpp.kata.developmentbooks.model.BookItems;
+import com.bnpp.kata.developmentbooks.model.GroupDetails;
 import com.bnpp.kata.developmentbooks.model.PriceResult;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -9,7 +10,7 @@ import org.junit.jupiter.api.Test;
 import java.util.Collections;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 class PricingEngineTest {
 
@@ -44,5 +45,27 @@ class PricingEngineTest {
         PriceResult price = pricingEngine.calculatePrice(quantities, titles);
 
         assertEquals(95.0, price.getPrice());
+    }
+
+    @Test
+    @DisplayName("should return correct grouped books and price")
+    void shouldReturnCorrectGroupedBooksAndPrice() {
+        int[] quantities = {1, 1};
+        String[] titles = {"Clean Code", "The Clean Coder"};
+
+        PriceResult result = pricingEngine.calculatePrice(quantities, titles);
+
+        assertNotNull(result);
+        assertEquals(1, result.getGroups().size());
+
+        GroupDetails group = result.getGroups().get(0);
+
+        assertAll(
+                () -> assertEquals(2, group.getGroupSize()),
+                () -> assertEquals(List.of("Clean Code", "The Clean Coder"), group.getBooks()),
+                () -> assertFalse(group.getBooks().contains("")),
+                () -> assertEquals(2 * 50 * (1 - 0.05), group.getAfterdiscountPrice()),
+                () -> assertEquals(5.0, group.getDiscountPercentage())
+        );
     }
 }
