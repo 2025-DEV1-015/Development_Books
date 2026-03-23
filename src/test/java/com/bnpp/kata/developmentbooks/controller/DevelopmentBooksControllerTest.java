@@ -1,6 +1,7 @@
 package com.bnpp.kata.developmentbooks.controller;
 
 import com.bnpp.kata.developmentbooks.constants.BookType;
+import com.bnpp.kata.developmentbooks.exception.InvalidBookException;
 import com.bnpp.kata.developmentbooks.model.BookItems;
 import com.bnpp.kata.developmentbooks.model.Books;
 import com.bnpp.kata.developmentbooks.model.GroupDetails;
@@ -16,6 +17,8 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doThrow;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 
 import java.util.Arrays;
@@ -91,5 +94,19 @@ class DevelopmentBooksControllerTest {
         return new OrderResponse(List.of(groupDetails1, groupDetails2),
                 400.0, 320.0
         );
+    }
+
+    @Test
+    @DisplayName("Should return InvalidBookException when invalid quantity passed")
+    void handleInvalidBasket_InvalidBookException_Returns400() throws Exception {
+        doThrow(new InvalidBookException("Invalid book items: check quantity/title"))
+                .when(developmentBooksService).calculateBookPrice(any());
+
+        mockMvc.perform(post("/api/v1/books/calculatePrice")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"books\":[{\"title\":\"Clean code\",\"quantity\":0}]}"))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.code").value("INVALID_BOOK"))
+                .andExpect(jsonPath("$.message").value("Invalid book items: check quantity/title"));
     }
 }

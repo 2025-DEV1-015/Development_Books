@@ -1,5 +1,6 @@
 package com.bnpp.kata.developmentbooks.service;
 
+import com.bnpp.kata.developmentbooks.exception.InvalidBookException;
 import com.bnpp.kata.developmentbooks.model.BookItems;
 import com.bnpp.kata.developmentbooks.model.OrderResponse;
 import com.bnpp.kata.developmentbooks.service.extractor.BookQuantityExtractor;
@@ -17,8 +18,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Stream;
 
-import static com.bnpp.kata.developmentbooks.constants.Constants.ZERO_DOUBLE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class DevelopmentBooksServiceTest {
     private DevelopmentBooksService developmentBooksService;
@@ -67,9 +68,9 @@ class DevelopmentBooksServiceTest {
     void calculateSingleBookWithEmptyData() {
 
         List<BookItems> bookItemsList = Collections.singletonList(new BookItems("", 1));
-        OrderResponse response = developmentBooksService.calculateBookPrice(bookItemsList);
-
-        assertEquals(ZERO_DOUBLE, response.getDiscountedPrice());
+        assertThrows(InvalidBookException.class, () ->
+                developmentBooksService.calculateBookPrice(bookItemsList)
+        );
     }
 
     @Test
@@ -77,9 +78,9 @@ class DevelopmentBooksServiceTest {
     void calculateSingleBookWithZeroQuantity() {
 
         List<BookItems> bookItemsList = Collections.singletonList(new BookItems("Clean Code", 0));
-        OrderResponse response = developmentBooksService.calculateBookPrice(bookItemsList);
-
-        assertEquals(ZERO_DOUBLE, response.getDiscountedPrice());
+        assertThrows(InvalidBookException.class, () ->
+                developmentBooksService.calculateBookPrice(bookItemsList)
+        );
     }
 
     @Test
