@@ -25,11 +25,11 @@ One copy of the five books costs 50 EUR.
 - If you go for the whole hog, and buy all 5, you get a huge 25% discount.
 - Note that if you buy, say, 4 books, of which 3 are different titles, you get a 10% discount on the 3 that form part of a set, but the 4th book still costs 50 EUR.
 
-## Requirements
+## Software Requirements
 
 - **Java** : 17
 - **Springboot** : 3.2
-- **Maven** : For Dependency management
+- **Maven** :  3.x
 - **JUnit** : 5.x
 
 ## Commit Message Style Guide
@@ -46,16 +46,25 @@ Each commit messages contains **Title**. The title consists of the type of the m
 - **test**: Adding or refactoring tests
 - **chore**: Updates to build processes or auxiliary tools (e.g., package manager configs)
 
-## How to Build the Application
+## How to Build and run the Application
 
 - Clone this repository:
    ```bash
-   https://github.com/2025-DEV1-015/Development_Books
+   https://github.com/2025-DEV1-015/Development_Books.git
 - Build the project and run the tests by running
     ```bash
     mvn clean install
 - The **Model Classes** used in the project are generated from the **OpenAPI** specification during the build process. Running `mvn clean install` will regenerate the models as part of the build.
 
+- Run main class from IDE (IntelliJ/Eclipse):
+  ```bash
+  Navigate to DevelopmentBooksApplication
+  Click Run
+
+- Once started, the application will be available at:
+  ```bash
+  http://localhost:8080
+  
 ## Sample Input and Output
 
 The following is a sample input to the Development Books API and the corresponding output:
@@ -130,4 +139,4 @@ This JSON response represents Development Books with prices grouped based on app
 - Once after successful build of
   `mvn clean install`, navigate to target folder of the project root directory
 - **Jacoco code coverage report :** Code Coverage report will be available in `target\site\jacoco` folder. View the report by launching **index.html**
-- **pi test coverage report:** Mutation Coverage report will be available in `target\pit-reports` folder. View the report by launchig **index.html**
+- **pit test coverage report:** Mutation Coverage report will be available in `target\pit-reports` folder. View the report by launchig **index.html**
