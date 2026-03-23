@@ -98,13 +98,13 @@ class DevelopmentBooksControllerTest {
 
     @Test
     @DisplayName("Should return InvalidBookException when invalid quantity passed")
-    void handleInvalidBasket_InvalidBookException_Returns400() throws Exception {
+    void shouldReturnBadRequestWhenInvalidBookExceptionThrown() throws Exception {
         doThrow(new InvalidBookException("Invalid book items: check quantity/title"))
                 .when(developmentBooksService).calculateBookPrice(any());
 
         mockMvc.perform(post("/api/v1/books/calculatePrice")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"books\":[{\"title\":\"Clean code\",\"quantity\":0}]}"))
+                        .content("{\"books\":[{\"title\":\"Clean Code\",\"quantity\":0}]}"))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.code").value("INVALID_BOOK"))
                 .andExpect(jsonPath("$.message").value("Invalid book items: check quantity/title"));

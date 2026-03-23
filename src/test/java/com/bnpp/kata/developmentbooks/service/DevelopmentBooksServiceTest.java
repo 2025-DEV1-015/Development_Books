@@ -64,7 +64,7 @@ class DevelopmentBooksServiceTest {
     }
 
     @Test
-    @DisplayName("should return zero when book title is empty")
+    @DisplayName("should throw exception when book title is empty")
     void calculateSingleBookWithEmptyData() {
 
         List<BookItems> bookItemsList = Collections.singletonList(new BookItems("", 1));
@@ -74,7 +74,7 @@ class DevelopmentBooksServiceTest {
     }
 
     @Test
-    @DisplayName("should return zero when book quantity is invalid")
+    @DisplayName("should throw exception when quantity is invalid")
     void calculateSingleBookWithZeroQuantity() {
 
         List<BookItems> bookItemsList = Collections.singletonList(new BookItems("Clean Code", 0));
@@ -84,7 +84,7 @@ class DevelopmentBooksServiceTest {
     }
 
     @Test
-    @DisplayName("should return total price for two different books without discount")
+    @DisplayName("should return total price for two different books")
     void calculateTwoDifferentBooksPrice() {
 
         List<BookItems> bookItemsList = List.of(new BookItems("Clean Code", 1),
@@ -107,7 +107,7 @@ class DevelopmentBooksServiceTest {
     @Test
     @DisplayName("Should return best discounted price for book combination")
     void calculateBestDiscountPrice() {
-        List<BookItems> bookItemsList = List.of(new BookItems("Clean code", 2),
+        List<BookItems> bookItemsList = List.of(new BookItems("Clean Code", 2),
                 new BookItems("The Clean Coder", 2),
                 new BookItems("Clean Architecture", 2),
                 new BookItems("Test Driven Development by Example", 1),
@@ -121,7 +121,7 @@ class DevelopmentBooksServiceTest {
     @DisplayName("Should return actual total price of book items")
     void shouldCalculateTotalPrice() {
         List<BookItems> items = List.of(
-                new BookItems("Clean code", 2),
+                new BookItems("Clean Code", 2),
                 new BookItems("The Clean Coder", 3)
         );
         OrderResponse response = developmentBooksService.calculateBookPrice(items);
@@ -130,9 +130,9 @@ class DevelopmentBooksServiceTest {
     }
 
     @ParameterizedTest
-    @DisplayName("should return total price for three,four & five different books without discount")
+    @DisplayName("should return total price for three,four & five different books based on discount logic")
     @MethodSource("bookDataProvider")
-    void calculateMultipleBooksPriceWithoutDiscount(List<BookItems> bookItemsList, double expectedPrice) {
+    void calculateMultipleBooksPriceWithDiscount(List<BookItems> bookItemsList, double expectedPrice) {
 
         OrderResponse response = developmentBooksService.calculateBookPrice(bookItemsList);
 
