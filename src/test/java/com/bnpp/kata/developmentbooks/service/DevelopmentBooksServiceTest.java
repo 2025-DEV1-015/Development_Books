@@ -117,6 +117,18 @@ class DevelopmentBooksServiceTest {
         assertEquals(320.0, response.getDiscountedPrice());
     }
 
+    @Test
+    @DisplayName("Should return actual total price of book items")
+    void shouldCalculateTotalPrice() {
+        List<BookItems> items = List.of(
+                new BookItems("Clean code", 2),
+                new BookItems("The Clean Coder", 3)
+        );
+        OrderResponse response = developmentBooksService.calculateBookPrice(items);
+
+        assertEquals(250, response.getTotalPrice());
+    }
+
     @ParameterizedTest
     @DisplayName("should return total price for three,four & five different books without discount")
     @MethodSource("bookDataProvider")
