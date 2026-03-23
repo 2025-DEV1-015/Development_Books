@@ -121,4 +121,13 @@ class DevelopmentBooksControllerTest {
                 .andExpect(jsonPath("$.code").value("EMPTY_BOOK_LIST"))
                 .andExpect(jsonPath("$.message").value("Book list cannot be empty"));
     }
+
+    @Test
+    @DisplayName("should return INTERNAL_ERROR for unhandled exception")
+    void shouldReturn500ForUnhandledException() throws Exception {
+        mockMvc.perform(post("/api/v1/books/calculatePrice")
+                        .content("{\"books\": [{\"title\":\"Clean Code\",\"quantity\":0]}"))
+                .andExpect(status().isInternalServerError())
+                .andExpect(jsonPath("$.code").value("INTERNAL_ERROR"));
+    }
 }
