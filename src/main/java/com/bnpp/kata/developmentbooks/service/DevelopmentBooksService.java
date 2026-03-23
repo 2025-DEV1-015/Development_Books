@@ -9,9 +9,9 @@ import com.bnpp.kata.developmentbooks.service.extractor.BookQuantityExtractor;
 import com.bnpp.kata.developmentbooks.service.extractor.BookTitleExtractor;
 import com.bnpp.kata.developmentbooks.service.pricing.PricingEngine;
 import com.bnpp.kata.developmentbooks.service.validation.BookValidator;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.validation.annotation.Validated;
 
 import java.util.Arrays;
 import java.util.List;
@@ -19,7 +19,6 @@ import java.util.List;
 import static com.bnpp.kata.developmentbooks.constants.Constants.BASE_PRICE;
 
 @Service
-@Validated
 @RequiredArgsConstructor
 public class DevelopmentBooksService {
 
@@ -32,7 +31,7 @@ public class DevelopmentBooksService {
         return Arrays.stream(BookType.values()).map(BookType::getTitle).toList();
     }
 
-    public OrderResponse calculateBookPrice(List<BookItems> bookItemsList) {
+    public OrderResponse calculateBookPrice(List<@Valid BookItems> bookItemsList) {
 
         if (bookValidator.validate(bookItemsList)) {
             throw new InvalidBookException("Invalid book items: check quantity/title");

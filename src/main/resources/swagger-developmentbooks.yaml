@@ -63,6 +63,7 @@ components:
           items:
             $ref: '#/components/schemas/BookItems'
           minItems: 1
+          x-field-extra-annotation: '@jakarta.validation.constraints.NotEmpty(message = "Book list cannot be empty")'
       example:
         books:
           - title: "Clean Code"

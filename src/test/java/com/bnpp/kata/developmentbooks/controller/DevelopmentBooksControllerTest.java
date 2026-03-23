@@ -109,4 +109,16 @@ class DevelopmentBooksControllerTest {
                 .andExpect(jsonPath("$.code").value("INVALID_BOOK"))
                 .andExpect(jsonPath("$.message").value("Invalid book items: check quantity/title"));
     }
+
+    @Test
+    @DisplayName("Should return EMPTY_BOOK_LIST when empty book list provided")
+    void handleEmptyBookList_ReturnsValidationError() throws Exception {
+
+        mockMvc.perform(post("/api/v1/books/calculatePrice")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"books\": []}"))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.code").value("EMPTY_BOOK_LIST"))
+                .andExpect(jsonPath("$.message").value("Book list cannot be empty"));
+    }
 }

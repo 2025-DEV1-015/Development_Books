@@ -3,6 +3,7 @@ package com.bnpp.kata.developmentbooks.controller;
 import com.bnpp.kata.developmentbooks.model.Books;
 import com.bnpp.kata.developmentbooks.model.OrderResponse;
 import com.bnpp.kata.developmentbooks.service.DevelopmentBooksService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,7 +26,7 @@ public class DevelopmentBooksController implements CalculatePriceApi {
     }
 
     @Override
-    public ResponseEntity<OrderResponse> calculateBookPriceApi(@RequestBody Books books) {
+    public ResponseEntity<OrderResponse> calculateBookPriceApi(@Valid @RequestBody Books books) {
         return ResponseEntity.ok(developmentBooksService.calculateBookPrice(books.getBooks()));
     }
 }
